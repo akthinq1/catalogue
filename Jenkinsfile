@@ -24,7 +24,7 @@ pipeline {
                     """
                 }
             }
-
+        }
         stage('Read package.json'){
             steps{
                 script{
@@ -34,7 +34,7 @@ pipeline {
                 }
             }
         }
-        }
+        
         stage('Test') {
             steps {
                 echo 'Testing..'
