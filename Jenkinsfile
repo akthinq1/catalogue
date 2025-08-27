@@ -18,17 +18,8 @@ pipeline {
 
     // Build
     stages {
-        stage('Build') {
-            steps {
-                script{
-                    sh """
-                        echo "Hello world!"
-                        sleep 10
-                        env
-                    """
-                }
-            }
-        }
+        
+        // read version
         stage('Read package.json'){
             steps{
                 script{
@@ -39,6 +30,7 @@ pipeline {
             }
         }
 
+        // install dependencies
         stage('Install Dependencies'){
             steps{
                 script{
@@ -48,7 +40,19 @@ pipeline {
                 }
             }
         }
+        
+        // perform unit testing
+        stage('Unit Testing') {
+            steps {
+                script {
+                   sh """
+                        echo "unit tests"
+                   """
+                }
+            }
+        }
 
+        // build docker image and push to ECR
         stage('Docker Build'){
             steps{
                 script{
