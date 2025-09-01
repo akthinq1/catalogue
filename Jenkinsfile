@@ -16,6 +16,11 @@ pipeline {
         disableConcurrentBuilds()
     }
 
+    parameters{
+        // choice(name:'deploy_to', choice: 'DEPLOY', description: 'Pick the env')
+        booleanParam(name: 'DEPLOY', defaultValue: false, description: "Trigger the value")
+    }
+
     // Build
     stages {
         
@@ -69,12 +74,21 @@ pipeline {
 
         stage('Test') {
             steps {
-                echo 'Testing..'
+                echo ' considering UNIT Testing..'
             }
         }
-        stage('Deploy') {
+
+        // Devlopers does't trigger code always, they trigger the code when they are confident
+        stage('Trigger Deploy') {
+            when{
+                expresssion { params.DEPLOY }
+            }
             steps {
-                echo 'Deploying....'
+                script{
+                   build job: 'catalogue-cd'
+                   propagate: false,
+                   wait: false
+                }                
             }
         }
     }
