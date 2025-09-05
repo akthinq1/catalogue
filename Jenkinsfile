@@ -81,7 +81,7 @@ pipeline {
         // Devlopers does't trigger code always, they trigger the code when they are confident
         stage('Trigger Deploy') {
             when{
-                expresssion { params.DEPLOY }
+                expression { params.DEPLOY }
             }
             steps {
                 script{
