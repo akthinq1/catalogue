@@ -109,7 +109,7 @@ pipeline {
             steps {
                 script{
                    build job: 'catalogue-cd',
-                   echo 'appVersion: "${appVersion}"'
+                   echo 'appVersion: "${appVersion}"',
                     parameters: [
                         string(name: 'appVersion', value: "${appVersion}"),
                         string(name: 'deploy_to', value: 'dev')
