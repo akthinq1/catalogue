@@ -57,6 +57,29 @@ pipeline {
             }
         }
 
+        // use sonarqube for static source code analysis
+        /* stage('Sonar Scan') {
+            environment {
+                scannerHome = tool 'sonar-7.2'
+            }
+            steps {
+                script {
+                   // Sonar Server envrionment
+                   withSonarQubeEnv(installationName: 'sonar-7.2') {
+                         sh "${scannerHome}/bin/sonar-scanner"
+                   }
+                }
+            }
+        } */
+
+        // Enable webhook in sonarqube server and wait for results
+        /* stage("Quality Gate") {
+            steps {
+                timeout(time: 1, unit: 'HOURS') {
+                waitForQualityGate abortPipeline: true }
+            }
+        } */
+
         // build docker image and push to ECR
         stage('Docker Build'){
             steps{
@@ -86,6 +109,7 @@ pipeline {
             steps {
                 script{
                    build job: 'catalogue-cd',
+                   echo 'appVersion: "${appVersion}"'
                     parameters: [
                         string(name: 'appVersion', value: "${appVersion}"),
                         string(name: 'deploy_to', value: 'dev')
